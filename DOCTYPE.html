@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eje 7: Seguridad Digital y Confianza</title>
+    <!-- Carga de Tailwind CSS para el estilo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de la fuente Lexend Mega y Lexend -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@700&family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para el contenedor de la presentación */
+        body {
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #presentation-container {
+            width: 1000px; /* Tamaño fijo para simular el lienzo de la presentación */
+            height: 562.5px; /* Ratio 16:9 (1000x562.5) */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background-color: #fff;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: none; /* Ocultar por defecto */
+        }
+
+        .slide.active {
+            opacity: 1;
+            display: block; /* Mostrar solo el activo */
+        }
+
+        .slide-element {
+            position: absolute;
+            /* Usaremos JavaScript para establecer x, y, w, h */
+        }
+
+        /* Aplicar las fuentes definidas en el JSON */
+        .font-lexend-mega { font-family: 'Lexend Mega', sans-serif; }
+        .font-lexend { font-family: 'Lexend', sans-serif; }
+    </style>
+</head>
+<body>
+
+    <div id="presentation-container">
+        <!-- Las diapositivas se renderizarán aquí -->
+    </div>
+
+    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 p-4 bg-white/80 backdrop-blur-md rounded-lg shadow-xl">
+        <button id="prev-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition duration-150 shadow-md flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2"><path d="M15 18l-6-6 6-6"/></svg>
+            Anterior
+        </button>
+        <span id="slide-info" class="self-center text-lg font-lexend text-gray-700"></span>
+        <button id="next-btn" class="px-4 py-2 bg-[#00DDC0] text-white rounded-lg font-bold hover:bg-[#00BBA0] transition duration-150 shadow-md flex items-center">
+            Siguiente
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 ml-2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+
+    <script>
+        // 1. Datos de la presentación (el contenido del archivo 'canva')
+        const presentationData = {
+          "title": "Presentación: Eje 7 - Seguridad Digital y Confianza",
+          "slides": [
+            {
+              "title": "Portada",
+              "background": {
+                "color": "#121212",
+                "url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+                "position": "center"
+              },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Eje 7: Seguridad Digital y Confianza",
+                  "font": "Lexend Mega",
+                  "color": "#FFFFFF",
+                  "size": 56,
+                  "bold": true,
+                  "position": { "x": 50, "y": 35, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Construyendo un Ciberespacio Seguro para el Futuro de Ecuador",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 28,
+                  "position": { "x": 50, "y": 200, "w": 700 }
+                },
+                {
+                  "type": "text",
+                  "value": "Basado en la 'Política Pública para la Transformación Digital del Ecuador 2025-2030'",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 16,
+                  "position": { "x": 50, "y": 450, "w": 600 }
+                }
+              ]
+            },
+            {
+              "title": "¿Qué es el Eje 7?",
+              "background": { "color": "#F0F4F8" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "¿Qué es el Eje 7?",
+                  "font": "Lexend Mega",
+                  "color": "#1E2A38",
+                  "size": 48,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 700 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#00DDC0", "position": { "x": 50, "y": 120, "w": 150, "h": 5 } },
+                {
+                  "type": "text",
+                  "value": "Pilar Fundamental:",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 24,
+                  "bold": true,
+                  "position": { "x": 80, "y": 180, "w": 400 }
+                },
+                {
+                  "type": "text",
+                  "value": "Seguridad de la Información",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 22,
+                  "position": { "x": 80, "y": 220, "w": 400 }
+                },
+                {
+                  "type": "text",
+                  "value": "Objetivo General:",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 24,
+                  "bold": true,
+                  "position": { "x": 80, "y": 300, "w": 600 }
+                },
+                {
+                  "type": "text",
+                  "value": "Fomentar la confianza en la tecnología y promover un ciberespacio seguro a través de regulación, educación y medidas de protección.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 22,
+                  "position": { "x": 80, "y": 340, "w": 650 }
+                },
+                { "type": "icon", "icon": "shield-check", "color": "#00DDC0", "position": { "x": 800, "y": 180, "w": 150, "h": 150 } }
+              ]
+            },
+            {
+              "title": "Diagnóstico - Ecuador en el Mundo",
+              "background": { "color": "#1E2A38" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Diagnóstico: Ecuador en el Mundo",
+                  "font": "Lexend Mega",
+                  "color": "#FFFFFF",
+                  "size": 42,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Índice Global de Ciberseguridad (IGC)",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 20,
+                  "position": { "x": 50, "y": 120, "w": 500 }
+                },
+                {
+                  "type": "text",
+                  "value": "26.3",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 100, "y": 200, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "2020",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 24,
+                  "position": { "x": 100, "y": 290, "w": 200 }
+                },
+                { "type": "icon", "icon": "arrow-right-circle", "color": "#00DDC0", "position": { "x": 450, "y": 220, "w": 100, "h": 100 } },
+                {
+                  "type": "text",
+                  "value": "87.18",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 700, "y": 200, "w": 250 }
+                },
+                {
+                  "type": "text",
+                  "value": "2024",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 24,
+                  "position": { "x": 700, "y": 290, "w": 200 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#00DDC0", "position": { "x": 50, "y": 400, "w": 900, "h": 3 } },
+                {
+                  "type": "text",
+                  "value": "Nos ubicamos en el 'Nivel 2: avanzando' en la región, un gran salto en nuestro compromiso con la ciberseguridad.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 20,
+                  "position": { "x": 50, "y": 420, "w": 900 }
+                }
+              ]
+            },
+            {
+              "title": "Nuestro Marco Estratégico",
+              "background": { "color": "#FFFFFF" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Nuestro Marco Estratégico Nacional",
+                  "font": "Lexend Mega",
+                  "color": "#1E2A38",
+                  "size": 42,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 800 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#F0F4F8", "position": { "x": 50, "y": 150, "w": 430, "h": 350 }, "cornerRadius": 20 },
+                { "type": "icon", "icon": "shield-check", "color": "#1E2A38", "position": { "x": 240, "y": 180, "w": 50, "h": 50 } },
+                {
+                  "type": "text",
+                  "value": "EGSI",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 28,
+                  "bold": true,
+                  "position": { "x": 80, "y": 250, "w": 370 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "El Esquema Gubernamental de Seguridad es el marco que rige la protección de la información en todo el sector público.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 80, "y": 300, "w": 370 },
+                  "textAlign": "center"
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#F0F4F8", "position": { "x": 520, "y": 150, "w": 430, "h": 350 }, "cornerRadius": 20 },
+                { "type": "icon", "icon": "bar-chart-2", "color": "#1E2A38", "position": { "x": 710, "y": 180, "w": 50, "h": 50 } },
+                {
+                  "type": "text",
+                  "value": "CSIRT Nacional",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 28,
+                  "bold": true,
+                  "position": { "x": 550, "y": 250, "w": 370 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "Nuestro Equipo de Respuesta a Incidentes de Ciberseguridad, integrado a la red de la OEA para una mejor cooperación internacional.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 550, "y": 300, "w": 370 },
+                  "textAlign": "center"
+                }
+              ]
+            },
+            {
+              "title": "Análisis del Sector",
+              "background": {
+                "color": "#F0F4F8"
+              },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Análisis del Sector: Oportunidades y Retos",
+                  "font": "Lexend Mega",
+                  "color": "#1E2A38",
+                  "size": 42,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 900 }
+                },
+                { "type": "icon", "icon": "thumbs-up", "color": "#00DDC0", "position": { "x": 150, "y": 180, "w": 80, "h": 80 } },
+                {
+                  "type": "text",
+                  "value": "15",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 150, "y": 260, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "Potencialidades",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 24,
+                  "position": { "x": 100, "y": 350, "w": 200 },
+                  "textAlign": "center"
+                },
+                { "type": "icon", "icon": "alert-triangle", "color": "#FF6B6B", "position": { "x": 450, "y": 180, "w": 80, "h": 80 } },
+                {
+                  "type": "text",
+                  "value": "21",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 450, "y": 260, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "Problemáticas",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 24,
+                  "position": { "x": 400, "y": 350, "w": 200 },
+                  "textAlign": "center"
+                },
+                { "type": "icon", "icon": "lightbulb", "color": "#FFC107", "position": { "x": 750, "y": 180, "w": 80, "h": 80 } },
+                {
+                  "type": "text",
+                  "value": "20",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 750, "y": 260, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "Soluciones Propuestas",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 24,
+                  "position": { "x": 700, "y": 350, "w": 200 },
+                  "textAlign": "center"
+                }
+              ]
+            },
+            {
+              "title": "Objetivo y Estrategias",
+              "background": {
+                "color": "#FFFFFF",
+                "url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop",
+                "position": "center",
+                "overlay": "rgba(18, 18, 18, 0.7)"
+              },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Nuestra Hoja de Ruta",
+                  "font": "Lexend Mega",
+                  "color": "#FFFFFF",
+                  "size": 48,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 700 }
+                },
+                {
+                  "type": "text",
+                  "value": "OBJETIVO PRINCIPAL",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 20,
+                  "position": { "x": 50, "y": 150, "w": 500 }
+                },
+                {
+                  "type": "text",
+                  "value": "Fortalecer la seguridad digital para un ciberespacio más seguro y confiable.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 24,
+                  "position": { "x": 50, "y": 180, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "ESTRATEGIAS",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 20,
+                  "position": { "x": 50, "y": 300, "w": 500 }
+                },
+                {
+                  "type": "text",
+                  "value": "1. Implementar el EGSI en todo el sector público.\n2. Operar el CSIRT Nacional para una respuesta eficaz a incidentes.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 22,
+                  "position": { "x": 50, "y": 330, "w": 850 }
+                }
+              ]
+            },
+            {
+              "title": "Metas Claras y Medibles",
+              "background": { "color": "#F0F4F8" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Midiendo Nuestro Progreso",
+                  "font": "Lexend Mega",
+                  "color": "#1E2A38",
+                  "size": 48,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 700 }
+                },
+                {
+                  "type": "text",
+                  "value": "INDICADOR CLAVE",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 20,
+                  "position": { "x": 50, "y": 150, "w": 900 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "% de instituciones públicas que implementaron el EGSI",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 24,
+                  "bold": true,
+                  "position": { "x": 50, "y": 180, "w": 900 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "0%",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 48,
+                  "bold": true,
+                  "position": { "x": 100, "y": 280, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "Línea Base 2024",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 100, "y": 350, "w": 200 }
+                },
+                {
+                  "type": "text",
+                  "value": "100%",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 72,
+                  "bold": true,
+                  "position": { "x": 700, "y": 260, "w": 250 }
+                },
+                {
+                  "type": "text",
+                  "value": "Meta 2027",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 24,
+                  "position": { "x": 700, "y": 350, "w": 200 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#CCCCCC", "position": { "x": 150, "y": 420, "w": 700, "h": 10 } },
+                { "type": "shape", "shape": "rectangle", "color": "#00DDC0", "position": { "x": 150, "y": 420, "w": 700, "h": 10 }, "fill": { "type": "gradient", "colors": ["#FFC107", "#00DDC0"] } }
+              ]
+            },
+            {
+              "title": "Inversión en Seguridad",
+              "background": { "color": "#1E2A38" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Inversión en la Confianza Digital",
+                  "font": "Lexend Mega",
+                  "color": "#FFFFFF",
+                  "size": 42,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Presupuesto Total Asignado",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 24,
+                  "position": { "x": 50, "y": 150, "w": 900 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "$10,290,437",
+                  "font": "Lexend",
+                  "color": "#00DDC0",
+                  "size": 84,
+                  "bold": true,
+                  "position": { "x": 50, "y": 200, "w": 900 },
+                  "textAlign": "center"
+                },
+                {
+                  "type": "text",
+                  "value": "Gasto de Inversión",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 20,
+                  "position": { "x": 150, "y": 350, "w": 300 }
+                },
+                {
+                  "type": "text",
+                  "value": "$10.1 M",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 36,
+                  "bold": true,
+                  "position": { "x": 150, "y": 380, "w": 300 }
+                },
+                {
+                  "type": "text",
+                  "value": "Gasto Corriente",
+                  "font": "Lexend",
+                  "color": "#CCCCCC",
+                  "size": 20,
+                  "position": { "x": 550, "y": 350, "w": 300 }
+                },
+                {
+                  "type": "text",
+                  "value": "$193 K",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 36,
+                  "bold": true,
+                  "position": { "x": 550, "y": 380, "w": 300 }
+                }
+              ]
+            },
+            {
+              "title": "Alineación con la Visión del País",
+              "background": { "color": "#F0F4F8" },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Una Estrategia Integrada con la Visión del País",
+                  "font": "Lexend Mega",
+                  "color": "#1E2A38",
+                  "size": 40,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 900 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#FFFFFF", "position": { "x": 50, "y": 150, "w": 900, "h": 100 }, "cornerRadius": 10 },
+                {
+                  "type": "text",
+                  "value": "Plan Nacional de Desarrollo",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 22,
+                  "bold": true,
+                  "position": { "x": 80, "y": 165, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Se alinea con el Eje Social y la política de fortalecimiento de ciberseguridad.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 80, "y": 200, "w": 800 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#FFFFFF", "position": { "x": 50, "y": 270, "w": 900, "h": 100 }, "cornerRadius": 10 },
+                {
+                  "type": "text",
+                  "value": "Plan Sectorial",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 22,
+                  "bold": true,
+                  "position": { "x": 80, "y": 285, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Responde al objetivo de impulsar la seguridad de la información en el Estado.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 80, "y": 320, "w": 800 }
+                },
+                { "type": "shape", "shape": "rectangle", "color": "#FFFFFF", "position": { "x": 50, "y": 390, "w": 900, "h": 100 }, "cornerRadius": 10 },
+                {
+                  "type": "text",
+                  "value": "Plan Institucional",
+                  "font": "Lexend",
+                  "color": "#1E2A38",
+                  "size": 22,
+                  "bold": true,
+                  "position": { "x": 80, "y": 405, "w": 800 }
+                },
+                {
+                  "type": "text",
+                  "value": "Fortalece al Estado con medidas de seguridad que respondan a amenazas.",
+                  "font": "Lexend",
+                  "color": "#546E7A",
+                  "size": 18,
+                  "position": { "x": 80, "y": 440, "w": 800 }
+                }
+              ]
+            },
+            {
+              "title": "Conclusiones y Cierre",
+              "background": {
+                "color": "#121212",
+                "url": "https://images.unsplash.com/photo-1614064548237-0963d38b326c?q=80&w=1974&auto=format&fit=crop",
+                "position": "center",
+                "overlay": "rgba(18, 18, 18, 0.6)"
+              },
+              "elements": [
+                {
+                  "type": "text",
+                  "value": "Conclusiones",
+                  "font": "Lexend Mega",
+                  "color": "#FFFFFF",
+                  "size": 56,
+                  "bold": true,
+                  "position": { "x": 50, "y": 50, "w": 700 }
+                },
+                {
+                  "type": "text",
+                  "value": "✓ El Eje 7 es crucial para crear una base de confianza en la transformación digital.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 22,
+                  "position": { "x": 80, "y": 180, "w": 850 }
+                },
+                {
+                  "type": "text",
+                  "value": "✓ Ecuador está avanzando a paso firme para ser un referente de ciberseguridad en la región.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 22,
+                  "position": { "x": 80, "y": 250, "w": 850 }
+                },
+                {
+                  "type": "text",
+                  "value": "✓ La seguridad es una responsabilidad compartida entre el Estado, el sector privado y la ciudadanía.",
+                  "font": "Lexend",
+                  "color": "#FFFFFF",
+                  "size": 22,
+                  "position": { "x": 80, "y": 320, "w": 850 }
+                },
+                {
+                  "type": "text",
+                  "value": "¡Gracias!",
+                  "font": "Lexend Mega",
+                  "color": "#00DDC0",
+                  "size": 48,
+                  "bold": true,
+                  "position": { "x": 50, "y": 430, "w": 400 }
+                }
+              ]
+            }
+          ]
+        };
+
+        let currentSlideIndex = 0;
+        const container = document.getElementById('presentation-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const slideInfoSpan = document.getElementById('slide-info');
+
+        // Función para obtener el SVG de un ícono (usando un subset de Lucide Icons)
+        function getIconSvg(iconName, color, size) {
+            const icons = {
+                'shield-check': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>`,
+                'arrow-right-circle': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 8 4 4-4 4"/></svg>`,
+                'bar-chart-2': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>`,
+                'thumbs-up': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thumbs-up"><path d="M7 10v12c0 1.1.9 2 2 2h4.5a2 2 0 0 0 2-2V13l4.32-4.32c.3-.3.3-.77 0-1.06L15.54 4.14a1.75 1.75 0 0 0-2.3-2.19c-.8.15-1.55.77-1.92 1.63L11 8H9c-2 0-3 1.5-3 3V10z"/></svg>`,
+                'alert-triangle': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-9-15-9 15h18z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`,
+                'lightbulb': `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-.63.9-1 1.6-1a.9.9 0 0 1 1.4.6l.4.8.4-.8a.9.9 0 0 1 1.4-.6c.7 0 1.4.37 1.6 1L22 17c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2l.2-3c.2-.63.9-1 1.6-1a.9.9 0 0 1 1.4.6l.4.8.4-.8a.9.9 0 0 1 1.4-.6c.7 0 1.4.37 1.6 1L8 17c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2l.2-3c.2-.63.9-1 1.6-1a.9.9 0 0 1 1.4.6l.4.8.4-.8a.9.9 0 0 1 1.4-.6c.7 0 1.4.37 1.6 1z"/></svg>`
+            };
+            return icons[iconName] || `<div style="color: ${color}; font-size: ${size/2}px;">[${iconName.toUpperCase()}]</div>`;
+        }
+
+        // Función principal para renderizar la presentación
+        function renderPresentation() {
+            container.innerHTML = ''; // Limpiar el contenedor
+            
+            presentationData.slides.forEach((slideData, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide relative';
+                slide.id = `slide-${index}`;
+                
+                // --- 1. Renderizar Fondo ---
+                const bg = slideData.background;
+                if (bg) {
+                    if (bg.color) {
+                        slide.style.backgroundColor = bg.color;
+                    }
+                    if (bg.url) {
+                        // Crear el elemento de fondo con imagen
+                        const img = document.createElement('div');
+                        img.className = 'absolute inset-0 bg-cover bg-no-repeat';
+                        img.style.backgroundImage = `url('${bg.url}')`;
+                        img.style.backgroundPosition = bg.position || 'center';
+                        slide.appendChild(img);
+
+                        // Aplicar el overlay si existe
+                        if (bg.overlay) {
+                            const overlay = document.createElement('div');
+                            overlay.className = 'absolute inset-0';
+                            overlay.style.backgroundColor = bg.overlay;
+                            slide.appendChild(overlay);
+                        }
+                    }
+                }
+
+                // --- 2. Renderizar Elementos ---
+                slideData.elements.forEach(el => {
+                    const elDiv = document.createElement('div');
+                    elDiv.className = 'slide-element';
+
+                    // Posicionamiento absoluto
+                    elDiv.style.left = `${el.position.x}px`;
+                    elDiv.style.top = `${el.position.y}px`;
+                    elDiv.style.width = `${el.position.w}px`;
+                    if (el.position.h) {
+                        elDiv.style.height = `${el.position.h}px`;
+                    }
+                    
+                    // Contenido y estilos específicos del tipo
+                    if (el.type === 'text') {
+                        elDiv.innerHTML = el.value.replace(/\n/g, '<br>');
+                        elDiv.style.color = el.color;
+                        elDiv.style.fontSize = `${el.size}px`;
+                        
+                        // Fuentes y Negrita
+                        if (el.font) {
+                            elDiv.classList.add(`font-${el.font.toLowerCase().replace(/\s/g, '-')}`);
+                        }
+                        if (el.bold) {
+                            elDiv.style.fontWeight = 'bold';
+                        }
+                        if (el.textAlign) {
+                            elDiv.style.textAlign = el.textAlign;
+                        }
+                    } 
+                    else if (el.type === 'shape') {
+                        // Formas (Rectángulo, etc.)
+                        elDiv.style.backgroundColor = el.color;
+                        elDiv.style.borderRadius = `${el.cornerRadius || 0}px`;
+                        
+                        // Para barras de progreso (Meta 2027)
+                        if (el.fill && el.fill.type === 'gradient' && el.position.h === 10) {
+                            const gradient = `linear-gradient(to right, ${el.fill.colors.join(', ')})`;
+                            elDiv.style.background = gradient;
+                        }
+
+                    } else if (el.type === 'icon') {
+                        // Íconos
+                        elDiv.innerHTML = getIconSvg(el.icon, el.color, el.position.w);
+                        elDiv.style.display = 'flex';
+                        elDiv.style.justifyContent = 'center';
+                        elDiv.style.alignItems = 'center';
+                    }
+
+                    slide.appendChild(elDiv);
+                });
+
+                container.appendChild(slide);
+            });
+
+            showSlide(currentSlideIndex);
+        }
+
+        // Función para mostrar la diapositiva actual
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            if (index >= 0 && index < slides.length) {
+                // Ocultar todas
+                slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Mostrar la diapositiva deseada
+                slides[index].classList.add('active');
+                currentSlideIndex = index;
+                
+                // Actualizar info y botones
+                slideInfoSpan.textContent = `Diapositiva ${currentSlideIndex + 1} de ${slides.length}`;
+                prevBtn.disabled = currentSlideIndex === 0;
+                nextBtn.disabled = currentSlideIndex === slides.length - 1;
+            }
+        }
+
+        // --- 3. Navegación ---
+        prevBtn.addEventListener('click', () => {
+            if (currentSlideIndex > 0) {
+                showSlide(currentSlideIndex - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlideIndex < presentationData.slides.length - 1) {
+                showSlide(currentSlideIndex + 1);
+            }
+        });
+
+        // Iniciar la presentación
+        window.onload = renderPresentation;
+
+    </script>
+
+</body>
+</html>
